@@ -1,16 +1,18 @@
 import { Document, Schema, model } from "mongoose";
-import { TaskStatusSchema, TaskStatusInterface } from "./TaskStatus";
+import { taskStatusSchema, TaskStatusInterface } from "./TaskStatus";
 
 export interface TaskInterFace extends Document {
-    description: String;
-    title: String;
+    id: string;
+    description: string;
+    title: string;
     status: TaskStatusInterface;
 }
 
 export const taskSchema = new Schema({
+    id: String,
     description: String,
     title: String,
-    status: TaskStatusSchema,
+    status: taskStatusSchema,
 });
 
 taskSchema.methods = {

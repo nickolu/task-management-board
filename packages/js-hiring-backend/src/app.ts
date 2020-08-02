@@ -1,11 +1,14 @@
-import { TaskController } from "./controller/task.controller";
-import express from "express";
-import cors from "cors";
 import bodyParser from "body-parser";
+import cors from "cors";
+import express from "express";
+import { TaskController } from "./controller/task.controller";
+import { TaskStatusController } from "./controller/taskStatus.controller";
 
 export function createApp() {
     const taskController = new TaskController();
+    const taskStatusController = new TaskStatusController();
     const app = express();
+
     app.use(cors());
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
@@ -22,6 +25,7 @@ export function createApp() {
     });
 
     app.use("/tasks", taskController.getRouter());
+    app.use("/task-status", taskStatusController.getRouter());
 
     return app;
 }

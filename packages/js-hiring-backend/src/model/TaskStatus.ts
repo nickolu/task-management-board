@@ -4,13 +4,19 @@ interface TaskStatusInterface extends mongoose.Document {
     status: String;
 }
 
-const TaskStatusSchema = new mongoose.Schema({
-    text: String,
+const taskStatusSchema = new mongoose.Schema({
+    status: String,
 });
 
 const TaskStatus = mongoose.model<TaskStatusInterface>(
     "TaskStatus",
-    TaskStatusSchema
+    taskStatusSchema
 );
 
-export { TaskStatus, TaskStatusInterface, TaskStatusSchema };
+taskStatusSchema.methods = {
+    findByStatus: async (status: string) => {
+        return await TaskStatus.find({ status: status });
+    },
+};
+
+export { TaskStatus, TaskStatusInterface, taskStatusSchema };
