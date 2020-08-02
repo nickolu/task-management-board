@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Form, Input, Button } from "reactstrap";
-import { TaskStatusApi } from "../../../api/TaskStatus";
 import { Redirect } from "react-router-dom";
+import { findAllTaskStatuses } from "../../../api/TaskStatus/findAllTaskStatuses";
 
 interface TaskCreationFormInterface {
     onSubmit(): any;
@@ -22,7 +22,7 @@ const TaskCreationForm = ({
     const [hasSubmit, setHasSubmit] = useState(false);
 
     useEffect(() => {
-        TaskStatusApi.findAll().then((options) => {
+        findAllTaskStatuses((options: any) => {
             setTaskStatusOptions(options.map((option: any) => option.status));
         });
     }, [setTaskStatusOptions]);

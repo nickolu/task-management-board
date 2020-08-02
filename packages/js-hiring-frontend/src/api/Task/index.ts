@@ -28,6 +28,9 @@ class TaskApi {
     static async update(document: object) {
         return await post("/tasks/update", document);
     }
+    static async findByStatus(status: string) {
+        return await get(`/tasks/find-by-status?status=${status}`);
+    }
 }
 
 export { TaskApi };
