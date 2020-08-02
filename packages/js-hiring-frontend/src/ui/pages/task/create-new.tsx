@@ -9,8 +9,9 @@ const CreateTaskPage = () => {
             initialTaskData={{
                 title: "",
                 description: "",
-                status: "",
+                status: "not started",
             }}
+            title={"Create a new task"}
         />
     );
 };

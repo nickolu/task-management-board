@@ -16,7 +16,7 @@ export const TasksPage = () => {
 
             <div>
                 <h3>All Tasks</h3>
-                {tasks && <TaskTable tasks={tasks} />}
+                {tasks && <TaskTable tasks={tasks} setTasks={setTasks} />}
             </div>
         </Page>
     );

@@ -18,5 +18,11 @@ export const EditTaskPage = ({ token }: any) => {
         });
     }, [token]);
 
-    return <TaskPage onSubmit={updateTask} initialTaskData={initialTaskData} />;
+    return (
+        <TaskPage
+            onSubmit={updateTask}
+            initialTaskData={initialTaskData}
+            title={"Edit a task"}
+        />
+    );
 };
