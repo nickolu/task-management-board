@@ -9,7 +9,6 @@ async function get(path: string) {
 }
 
 async function post(path: string, data: any) {
-    if (data.id) throw Error("no ids should be here");
     const response = await fetch(`${BASE_URL}${path}`, {
         method: "POST",
         headers: {
@@ -21,4 +20,16 @@ async function post(path: string, data: any) {
     return response.json();
 }
 
-export { get, post };
+async function remove(path: string, data: any) {
+    const response = await fetch(`${BASE_URL}${path}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    });
+
+    return response.json();
+}
+
+export { get, post, remove };

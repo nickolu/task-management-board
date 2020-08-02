@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Form, Input, Button } from "reactstrap";
-import { TaskStatusApi } from "../../../api/TaskStatus";
 import { Redirect } from "react-router-dom";
+import { StatusDropdown } from "../StatusDropdown";
 
 interface TaskCreationFormInterface {
     onSubmit(): any;
@@ -18,36 +18,24 @@ const TaskCreationForm = ({
     description,
     status,
 }: TaskCreationFormInterface) => {
-    const [taskStatusOptions, setTaskStatusOptions] = useState([]);
     const [hasSubmit, setHasSubmit] = useState(false);
-
-    useEffect(() => {
-        TaskStatusApi.findAll().then((options) => {
-            setTaskStatusOptions(options.map((option: any) => option.status));
-        });
-    }, [setTaskStatusOptions]);
 
     return (
         <>
             <Form onSubmit={onSubmit}>
-                <h4>name</h4>
+                <h4>Name</h4>
                 <Input value={title} onChange={onInputChange("title")} />
-                <h4>description</h4>
+                <h4>Description</h4>
                 <Input
+                    type="textarea"
                     value={description}
                     onChange={onInputChange("description")}
                 />
-                <h4>status</h4>
-                <select value={status} onChange={onInputChange("status")}>
-                    {taskStatusOptions.length > 0 &&
-                        taskStatusOptions.map((statusOption: string) => {
-                            return (
-                                <option key={statusOption} value={statusOption}>
-                                    {statusOption}
-                                </option>
-                            );
-                        })}
-                </select>
+                <h4>Status</h4>
+                <StatusDropdown
+                    status={status}
+                    onChange={onInputChange("status")}
+                />
                 <Button
                     onClick={(e) => {
                         onSubmit();

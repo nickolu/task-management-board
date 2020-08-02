@@ -1,23 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { TaskTable } from "../../components/TaskTable";
-import { TaskApi, TaskInterface } from "../../../api/Task";
 import { Page } from "../../components/Page";
-
-interface TasksPageState {
-    tasks: TaskInterface[];
-}
+import { findAllTasks } from "../../../api/Task/findAllTasks";
 
 export const TasksPage = () => {
     const [tasks, setTasks] = useState([]);
 
     useEffect(() => {
-        TaskApi.findAll()
-            .then((data) => {
-                setTasks(data);
-            })
-            .catch((e) => {
-                throw Error(e);
-            });
+        findAllTasks(setTasks);
     }, []);
 
     return (
@@ -26,7 +16,7 @@ export const TasksPage = () => {
 
             <div>
                 <h3>All Tasks</h3>
-                {tasks && <TaskTable tasks={tasks} />}
+                {tasks && <TaskTable tasks={tasks} setTasks={setTasks} />}
             </div>
         </Page>
     );

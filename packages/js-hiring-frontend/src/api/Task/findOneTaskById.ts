@@ -1,6 +1,6 @@
 import { TaskApi, TaskInterface } from ".";
 
-export function findOneById(id: string, callBack: any) {
+export function findOneTaskById(id: string, callBack: any) {
     TaskApi.findOneById(id)
         .then((task: TaskInterface) => {
             callBack(task);
