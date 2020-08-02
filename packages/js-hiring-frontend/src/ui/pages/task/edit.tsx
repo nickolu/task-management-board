@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { updateTask } from "../../../api/Task/updateTask";
-import { findOneById } from "../../../api/Task/findOneById";
+import { findOneTaskById } from "../../../api/Task/findOneTaskById";
 import { TaskPage } from ".";
 import { TaskPayloadInterface } from "../../../api/Task";
 
@@ -13,7 +13,7 @@ export const EditTaskPage = ({ token }: any) => {
     });
 
     useEffect(() => {
-        findOneById(token, (data: TaskPayloadInterface) => {
+        findOneTaskById(token, (data: TaskPayloadInterface) => {
             setInitialTaskData(data);
         });
     }, [token]);
