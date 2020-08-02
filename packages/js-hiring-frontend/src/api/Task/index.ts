@@ -1,4 +1,4 @@
-import { get, post } from "../HttpApi";
+import { get, post, remove } from "../HttpApi";
 import { TaskStatusInterface } from "../TaskStatus";
 
 export interface TaskInterface {
@@ -30,6 +30,9 @@ class TaskApi {
     }
     static async findByStatus(status: string) {
         return await get(`/tasks/find-by-status?status=${status}`);
+    }
+    static async delete(document: object) {
+        return await remove("/tasks/delete", document);
     }
 }
 
