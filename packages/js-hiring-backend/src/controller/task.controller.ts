@@ -11,6 +11,7 @@ class TaskController extends BaseController {
         router.get("/find-by-filter", this.findByFilter.bind(this));
         router.get("/find-one-by-id", this.findOneById.bind(this));
         router.get("/find-by-status", this.findByStatus.bind(this));
+        router.delete("/delete", this.deleteOne.bind(this));
         router.post("/create-new", this.createNew.bind(this));
         router.post("/update", this.update.bind(this));
         return router;
@@ -32,6 +33,37 @@ class TaskController extends BaseController {
         newTask.save();
 
         this.makeSuccessfulResponse(response, newTask);
+    }
+
+    async deleteOne(request: Request, response: Response) {
+        const body: Request["body"] = request.body;
+        const id: string = String(body._id);
+        console.log(body);
+        if (mongoose.isValidObjectId(id)) {
+            const task = await Task.findById(mongoose.Types.ObjectId(id));
+
+            if (task === null) {
+                this.makeBadRequestResponse(
+                    response,
+                    `cannot delete task. Task not found with id ${id}`
+                );
+            } else {
+                Task.deleteOne({ _id: id }, (err) => {
+                    if (err) {
+                        this.makeBadRequestResponse(response, err);
+                    } else {
+                        this.makeSuccessfulResponse(response, {
+                            message: `task ${id} deleted`,
+                        });
+                    }
+                });
+            }
+        } else {
+            this.makeBadRequestResponse(
+                response,
+                "_id must be a valid mongo ObjectId"
+            );
+        }
     }
 
     async findAll(_request: null, response: Response) {
@@ -112,12 +144,14 @@ class TaskController extends BaseController {
             status: request.body.status,
         };
 
-        taskInputs.status = await TaskStatus.find({
+        const taskStatus = await TaskStatus.findOne({
             status: taskInputs.status,
         });
 
+        taskInputs.status = taskStatus;
+
         if (task) {
-            await task.updateOne(body);
+            await task.updateOne(taskInputs);
 
             const updatedTask = await Task.findById(
                 mongoose.Types.ObjectId(id)
